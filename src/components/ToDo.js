@@ -128,7 +128,7 @@ const ToDo = ({ item, onDelete, onComplete, updateToDoDuration }) => {
 							</button>
 						)}
 						<button
-							onClick={() => onDelete()}
+							onClick={() => onDelete(item.id)}
 							className='rounded-md bg-red-300 p-1 hover:bg-red-500'>
 							Delete
 						</button>
