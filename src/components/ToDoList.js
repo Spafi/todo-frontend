@@ -20,10 +20,9 @@ const ToDoList = () => {
 	}, []);
 
 	return (
-		<div className='rounded-md border'>
-			<div>Sort</div>
-			<ToDo />
-      
+		<div className='border w-40rem p-4 space-y-4 flex flex-col items-center rounded-md'>
+			<div className='w-full'>Sort</div>
+      {toDos.map(item => <ToDo key={item.id} item={item}/>)}
 		</div>
 	);
 };
