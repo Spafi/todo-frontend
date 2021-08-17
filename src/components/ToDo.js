@@ -18,7 +18,7 @@ const ToDo = ({ item, onDelete, onComplete }) => {
 		<div
 			className={`${
 				item.timeRemaining != null && item.timeRemaining <= 1 && 'border-red-700'
-			} border w-full p-1 grid grid-cols-6 rounded-md gap-x-4`}>
+			} border w-full p-1 grid grid-cols-6 rounded-md gap-x-4 shadow-sm`}>
 			<div className='col-span-5 relative'>
 				<p
 					className={`${backgroundColor(
