@@ -54,7 +54,7 @@ const NewToDo = ({ toDo, types, onUpdate, onSave }) => {
 						))}
 					</select>
 				</div>
-				<div ref={dateRef} className='p-2 pt-4 space-x-4 mb-5'>
+				<div ref={dateRef} className='px-2 pt-4 space-x-4 flex'>
 					<label htmlFor='expiry'>Due date</label>
 					<input
 						name='expiry'
@@ -62,11 +62,11 @@ const NewToDo = ({ toDo, types, onUpdate, onSave }) => {
 						className='border rounded-md outline-none'
 						value={toDo.expirationDate ?? ''}
 						onChange={({ target }) => setDate(target.value)}></input>
-					<p className='absolute hidden pt-1 text-sm text-red-700'>
+					<p className='hidden text-sm text-red-700'>
 						Due date can't be in the past!
 					</p>
 				</div>
-				<div ref={estimationRef} className='p-2 pt-4 space-x-4 mb-5'>
+				<div ref={estimationRef} className='px-2 pt-4 space-x-4 mb-6 flex items-center relative'>
 					<label htmlFor='estimation'>
 						Task period estimation <br /> (0 for same day completion)
 					</label>
@@ -75,12 +75,12 @@ const NewToDo = ({ toDo, types, onUpdate, onSave }) => {
 						type='number'
 						min='0'
 						max='365'
-						className='border rounded-md outline-none'
+						className='border rounded-md outline-none h-10'
 						value={toDo.durationEstimate}
 						onChange={({ target }) => setEstimation(target.value)}></input>
-					<p className='absolute hidden pt-1 text-sm text-red-700'>
+					<div className='hidden absolute text-sm text-red-700 right-0'>
 						Estimation can't be negative!
-					</p>
+					</div>
 				</div>
 			</div>
 			<div className='flex flex-col justify-between py-2'>

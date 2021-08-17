@@ -14,6 +14,10 @@ const ToDo = ({ item, onDelete, onComplete }) => {
 		}
 	};
 
+	const handleCompletion = () => {
+		onDelete(item.id)
+	}
+
 	return (
 		<div
 			className={`${
@@ -59,12 +63,12 @@ const ToDo = ({ item, onDelete, onComplete }) => {
 					<>
 						<button
 							onClick={() => onComplete(item.id)}
-							className={`rounded-md bg-blue-400 p-1 hover:bg-blue-500`}>
+							className={`rounded-md bg-blue-300 p-1 hover:bg-blue-500`}>
 							Complete
 						</button>
 						<button
-							onClick={() => onDelete(item.id)}
-							className='rounded-md bg-red-400 p-1 hover:bg-red-500'>
+							onClick={() => handleCompletion(item.id)}
+							className='rounded-md bg-red-300 p-1 hover:bg-red-500'>
 							Delete
 						</button>
 					</>

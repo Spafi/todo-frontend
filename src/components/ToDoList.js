@@ -9,16 +9,16 @@ const ToDoList = () => {
 	const directions = { ASC: 'ASC', DESC: 'DESC' };
 	const columnNames = { CREATE: 'createdAt', EXPIRE: 'expirationDate' };
 	const taskType = { HOME: 'Home', WORK: 'Work', HOBBY: 'Hobby' };
-  const emptyToDo = {
-			name: '',
-			expirationDate: null,
-			durationEstimate: 0,
-			type: taskType.HOME,
-		};
+	const emptyToDo = {
+		name: '',
+		expirationDate: null,
+		durationEstimate: 0,
+		type: taskType.HOME,
+	};
 	const [toDos, setToDos] = useState([]);
 	const [sortDirection, setSortDirection] = useState(directions.ASC);
 	const [columnName, setColumnName] = useState(columnNames.CREATE);
-  const [showNewToDo, setShowNewToDo] = useState(false)
+	const [showNewToDo, setShowNewToDo] = useState(false);
 	const [newToDo, setNewToDo] = useState(emptyToDo);
 
 	const updateNewToDo = (key, value) => {
@@ -56,19 +56,27 @@ const ToDoList = () => {
 	};
 
 	const completeTask = async (taskId) => {
-		await axios
-			.put(TODO_URL + '/' + taskId)
-			.then(() => {
-				getItems(sortDirection, columnName);
-			})
-			.catch((error) => console.log(error));
+		if (newToDo.durationEstimate === '') {
+			return alert('Please set estimation!');
+		}
+		// await axios
+		// 	.put(TODO_URL + '/' + taskId)
+		// 	.then(() => {
+		// 		getItems(sortDirection, columnName);
+		// 	})
+		// 	.catch((error) => console.log(error));
 	};
 
 	const saveTask = async () => {
-		if (newToDo.expirationDate == null)
+		if (newToDo.expirationDate == null) {
 			return alert('Please select task expiration date!');
-      setShowNewToDo(false)
-      setNewToDo(emptyToDo)
+		}
+
+    if (newToDo.name === '') {
+      return alert('Task name is empty!')
+    }
+		setShowNewToDo(false);
+		setNewToDo(emptyToDo);
 		await axios
 			.post(TODO_URL, newToDo)
 			.then(() => {
