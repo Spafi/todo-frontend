@@ -1,7 +1,6 @@
 import React from 'react';
 
 const ToDo = ({ item }) => {
-  
 	const backgroundColor = (type) => {
 		switch (type) {
 			case 'HOME':
@@ -18,7 +17,7 @@ const ToDo = ({ item }) => {
 	return (
 		<div
 			className={`${
-				item.timeRemaining && item.timeRemaining <= 1 && 'border-red-700'
+				item.timeRemaining != null && item.timeRemaining <= 1 && 'border-red-700'
 			} border w-full p-1 grid grid-cols-6 rounded-md gap-x-4`}>
 			<div className='col-span-5 relative'>
 				<p
@@ -26,7 +25,9 @@ const ToDo = ({ item }) => {
 						item.type
 					)} rounded-md font-bold text-xl relative pr-10 p-2`}>
 					{item.name}
-					<span className='p-1 text-xs absolute right-0 top-0'>{item.type}</span>
+					<span className='p-1 text-xs absolute right-0 top-0 text-gray-600'>
+						{item.type}
+					</span>
 				</p>
 				<div className='pt-4 pl-2 pb-8 space-y-2'>
 					<p>Estimated completion time: {item.durationEstimate} days</p>
@@ -37,7 +38,7 @@ const ToDo = ({ item }) => {
 				<div className='flex justify-between p-2'>
 					<p>Created: {item.createdAt}</p>
 					<p> Due date: {item.expirationDate}</p>
-					{item.timeRemaining && (
+					{item.timeRemaining !== null && (
 						<p>
 							{' '}
 							Remaining:{' '}
