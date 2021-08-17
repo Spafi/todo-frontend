@@ -7,7 +7,9 @@ const NewToDo = ({ toDo, types, onUpdate, onSave }) => {
 		const dateContainer = dateRef.current;
 		const dateInput = dateContainer.children[1];
 		const dateError = dateContainer.lastChild;
-		if (new Date(dateString) < new Date()) {
+		const today = new Date();
+		today.setHours(0, 0, 0);
+		if (new Date(dateString) < today) {
 			dateInput.classList.add('border-red-500');
 			dateError.classList.remove('hidden');
 			return;
@@ -66,7 +68,9 @@ const NewToDo = ({ toDo, types, onUpdate, onSave }) => {
 						Due date can't be in the past!
 					</p>
 				</div>
-				<div ref={estimationRef} className='px-2 pt-4 space-x-4 mb-6 flex items-center relative'>
+				<div
+					ref={estimationRef}
+					className='px-2 pt-4 space-x-4 mb-6 flex items-center relative'>
 					<label htmlFor='estimation'>
 						Task period estimation <br /> (0 for same day completion)
 					</label>

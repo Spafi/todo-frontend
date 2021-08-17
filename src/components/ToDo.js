@@ -49,7 +49,7 @@ const ToDo = ({ item, onDelete, onComplete }) => {
 							{item.timeRemaining <= 1 ? (
 								<span className='text-red-700'>{item.timeRemaining} day</span>
 							) : (
-								<span>{item.timeRemaining} days</span>
+								<span>{item.timeRemaining} {item.timeRemaining === 1 ? 'day' : 'days'}</span>
 							)}
 						</p>
 					)}
