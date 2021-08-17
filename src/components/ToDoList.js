@@ -55,31 +55,27 @@ const ToDoList = () => {
 			.catch((error) => console.log(error));
 	};
 
-	const completeTask = async (taskId) => {
-		if (newToDo.durationEstimate === '') {
-			return alert('Please set estimation!');
-		}
-		// await axios
-		// 	.put(TODO_URL + '/' + taskId)
-		// 	.then(() => {
-		// 		getItems(sortDirection, columnName);
-		// 	})
-		// 	.catch((error) => console.log(error));
+	const completeTask = async (id, duration) => {
+		await axios
+			.put(TODO_URL + '/' + id, { actualWorkedTime: duration})
+			.then(() => {
+				getItems(sortDirection, columnName);
+			})
+			.catch((error) => alert(error.response.data.message));
 	};
 
 	const saveTask = async () => {
 		if (newToDo.expirationDate == null) {
 			return alert('Please select task expiration date!');
 		}
-
-    if (newToDo.name === '') {
-      return alert('Task name is empty!')
-    }
-		setShowNewToDo(false);
-		setNewToDo(emptyToDo);
+		if (newToDo.name === '') {
+			return alert('Task name is empty!');
+		}
 		await axios
 			.post(TODO_URL, newToDo)
 			.then(() => {
+				setShowNewToDo(false);
+				setNewToDo(emptyToDo);
 				getItems(sortDirection, columnName);
 			})
 			.catch((error) => console.log(error));

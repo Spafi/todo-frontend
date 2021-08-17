@@ -1,6 +1,5 @@
-import React from 'react';
-
-const ToDo = ({ item, onDelete, onComplete }) => {
+import React, { useRef, useState } from 'react';
+const ToDo = ({ item, onDelete, onComplete, updateToDoDuration }) => {
 	const backgroundColor = (type) => {
 		switch (type) {
 			case 'HOME':
@@ -13,10 +12,36 @@ const ToDo = ({ item, onDelete, onComplete }) => {
 				return '';
 		}
 	};
+	const [completionTime, setCompletionTime] = useState(0);
+	const estimationRef = useRef();
+	const [toggleCompletion, setToggleCompletion] = useState(false);
 
-	const handleCompletion = () => {
-		onDelete(item.id)
-	}
+	const setCompletion = (duration) => {
+		const completionContainer = estimationRef.current;
+		const completionInput = completionContainer.children[1];
+		const completionError = completionContainer.lastChild;
+		if (duration < 0) {
+			completionInput.classList.add('border-red-500');
+			completionError.classList.remove('hidden');
+			return;
+		}
+		if (duration > 365) duration = 365;
+
+		completionInput.classList.remove('border-red-500');
+		completionError.classList.add('hidden');
+		setCompletionTime(duration);
+	};
+
+	const handleCompletion =  () => {
+		if (completionTime === '') {
+			return alert('Please set completion time');
+		}
+		onComplete(item.id, completionTime);
+	};
+
+	const formatDays = (days) => {
+		return days === 1 ? ' day' : ' days';
+	};
 
 	return (
 		<div
@@ -34,9 +59,37 @@ const ToDo = ({ item, onDelete, onComplete }) => {
 					</span>
 				</p>
 				<div className='pt-4 pl-2 pb-8 space-y-2'>
-					<p>Estimated completion time: {item.durationEstimate} days</p>
-					{item.completed && (
-						<p>Effective time spent on task: {item.actualWorkedTime} days</p>
+					<p>
+						Estimated completion time: {item.durationEstimate}
+						{formatDays(item.durationEstimate)}
+					</p>
+					{item.completed === true ? (
+						<p>
+							Effective time spent on task: {item.actualWorkedTime}
+							{formatDays(item.actualWorkedTime)}
+						</p>
+					) : (
+						toggleCompletion && (
+							<div
+								ref={estimationRef}
+								className='pt-4 space-x-4 mb-6 flex items-center relative'>
+								<label htmlFor='completion'>
+									Effective time spent on task <br /> (0 for same day completion)
+								</label>
+								<input
+									name='completion'
+									type='number'
+									min='0'
+									max='365'
+									className='border rounded-md outline-none h-10'
+									value={completionTime}
+									onChange={({ target }) => setCompletion(target.value)}></input>
+								<p className='hidden text-sm text-red-700 right-0'>
+									Completion time can't
+									<br /> be negative!
+								</p>
+							</div>
+						)
 					)}
 				</div>
 				<div className='flex justify-between p-2'>
@@ -46,11 +99,12 @@ const ToDo = ({ item, onDelete, onComplete }) => {
 						<p>
 							{' '}
 							Remaining:{' '}
-							{item.timeRemaining <= 1 ? (
-								<span className='text-red-700'>{item.timeRemaining} day</span>
-							) : (
-								<span>{item.timeRemaining} {item.timeRemaining === 1 ? 'day' : 'days'}</span>
-							)}
+							{
+								<span className={`${item.timeRemaining <= 1 && 'text-red-700'}`}>
+									{item.timeRemaining}
+									{formatDays(item.timeRemaining)}
+								</span>
+							}
 						</p>
 					)}
 					{item.finishedAt && <p> Finished: {item.finishedAt}</p>}
@@ -62,12 +116,19 @@ const ToDo = ({ item, onDelete, onComplete }) => {
 				) : (
 					<>
 						<button
-							onClick={() => onComplete(item.id)}
+							onClick={() => setToggleCompletion((prevState) => !prevState)}
 							className={`rounded-md bg-blue-300 p-1 hover:bg-blue-500`}>
-							Complete
+							{toggleCompletion === true ? 'Cancel' : 'Complete'}
 						</button>
+						{toggleCompletion === true && (
+							<button
+								onClick={() => handleCompletion()}
+								className={`rounded-md bg-green-300 p-1 hover:bg-green-500`}>
+								Save
+							</button>
+						)}
 						<button
-							onClick={() => handleCompletion(item.id)}
+							onClick={() => onDelete()}
 							className='rounded-md bg-red-300 p-1 hover:bg-red-500'>
 							Delete
 						</button>

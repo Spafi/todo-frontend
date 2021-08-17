@@ -8,12 +8,15 @@ const NewToDo = ({ toDo, types, onUpdate, onSave }) => {
 		const dateInput = dateContainer.children[1];
 		const dateError = dateContainer.lastChild;
 		const today = new Date();
+
 		today.setHours(0, 0, 0);
+
 		if (new Date(dateString) < today) {
 			dateInput.classList.add('border-red-500');
 			dateError.classList.remove('hidden');
 			return;
 		}
+
 		dateInput.classList.remove('border-red-500');
 		dateError.classList.add('hidden');
 		onUpdate('expirationDate', dateString);
@@ -23,11 +26,15 @@ const NewToDo = ({ toDo, types, onUpdate, onSave }) => {
 		const estimationContainer = estimationRef.current;
 		const estimationInput = estimationContainer.children[1];
 		const estimationError = estimationContainer.lastChild;
+
 		if (estimation < 0) {
 			estimationInput.classList.add('border-red-500');
 			estimationError.classList.remove('hidden');
 			return;
 		}
+
+    if (estimation > 365) estimation = 365
+    
 		estimationInput.classList.remove('border-red-500');
 		estimationError.classList.add('hidden');
 

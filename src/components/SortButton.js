@@ -26,10 +26,3 @@ const SortButton = ({ name, clickHandler, direction, column, currentSort }) => {
 };
 
 export default SortButton;
-
-//  ${	direction === 'DESC'
-// 						? '-rotate-90 inline-flex'
-// 						: direction === 'ASC'
-// 						? 'rotate-90 inline-flex'
-// 						: ''
-// 				}
