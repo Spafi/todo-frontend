@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ToDo = ({ item }) => {
+const ToDo = ({ item, onDelete, onComplete }) => {
 	const backgroundColor = (type) => {
 		switch (type) {
 			case 'HOME':
@@ -57,10 +57,14 @@ const ToDo = ({ item }) => {
 					<p className={`rounded-md bg-green-400 p-1`}>Completed</p>
 				) : (
 					<>
-						<button className={`rounded-md bg-blue-400 p-1 hover:bg-blue-500`}>
+						<button
+							onClick={() => onComplete(item.id)}
+							className={`rounded-md bg-blue-400 p-1 hover:bg-blue-500`}>
 							Complete
 						</button>
-						<button className='rounded-md bg-red-400 p-1 hover:bg-red-500'>
+						<button
+							onClick={() => onDelete(item.id)}
+							className='rounded-md bg-red-400 p-1 hover:bg-red-500'>
 							Delete
 						</button>
 					</>

@@ -27,7 +27,18 @@ const ToDoList = () => {
 			.get(TODO_URL, { params: { sortDirection, columnName } })
 			.then((response) => {
 				setToDos(response.data);
-			});
+			})
+			.catch((error) => console.log(error));
+	};
+
+	const deleteTask = async (taskId) => {
+		await axios
+			.delete(TODO_URL + '/' + taskId)
+			.then(() => {
+				const newToDos = toDos.filter((item) => item.id !== taskId);
+				setToDos(newToDos);
+			})
+			.catch((error) => console.log(error));
 	};
 
 	useEffect(() => {
@@ -53,7 +64,7 @@ const ToDoList = () => {
 					clickHandler={() => sortData(columnNames.EXPIRE)}></SortButton>
 			</div>
 			{toDos.map((item) => (
-				<ToDo key={item.id} item={item} />
+				<ToDo key={item.id} item={item} onDelete={deleteTask} />
 			))}
 			<button className='rounded-md text-xl border-2'>Add task</button>
 		</div>
